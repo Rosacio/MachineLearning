@@ -1,0 +1,59 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv("C:\\Users\\joao_\\OneDrive\\Documentos\\Machine_learning\\Machine Learning A-Z (Codes and Datasets)\\Part 2 - Regression\Section 4 - Simple Linear Regression\\Python\\Salary_Data.csv")
+
+
+# In[4]:
+
+
+x = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test  = train_test_split(x, y, test_size = 0.2, random_state = 1)
+
+
+# In[5]:
+
+
+#Until now as basically processing the data as previous 
+#We will now train the data on linear Regression model
+
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+
+# In[7]:
+
+
+print(regressor)
+
+
+# In[8]:
+
+
+y_pred = regressor.predict(X_test)
+
+
+# In[9]:
+
+
+#Now lets see the both predicted and test set in graphics
+plt.scatter(X_train, y_train, color = 'red')
+plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+plt.title('Salary vs Experience (training set)')
+plt.xlabel('Years')
+plt.ylabel('Salary')
+plt.show()
+#Now lets see the both predicted and test set in graphics
+plt.scatter(X_test, y_test, color = 'red')
+plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+plt.title('Salary vs Experience (test set)')
+plt.xlabel('Years')
+plt.ylabel('Salary')
+plt.show()
+
+
+# In[ ]:
