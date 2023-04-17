@@ -1,0 +1,70 @@
+# In[15]:
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv("C:\\Users\\joao_\\OneDrive\\Documentos\\Machine_learning\\Machine Learning A-Z (Codes and Datasets)\\Part 2 - Regression\\Section 6 - Polynomial Regression\\Python\\Position_Salaries.csv")
+x = dataset.iloc[:, 1:-1].values
+y = dataset.iloc[:, -1].values
+
+
+# In[16]:
+
+
+print(y)
+
+
+# In[18]:
+
+
+#Feature Scaling
+y = y.reshape(len(y), 1)
+
+
+# In[4]:
+
+
+print(y)
+
+
+# In[19]:
+
+
+from sklearn.preprocessing import StandardScaler
+sc_x = StandardScaler()
+sc_y = StandardScaler()
+x = sc_x.fit_transform(x)
+y = sc_y.fit_transform(y)
+
+
+# In[12]:
+
+
+print(x)
+print(y)
+
+
+# In[20]:
+
+
+from sklearn.svm import SVR
+regressor = SVR(kernel = 'rbf')
+regressor.fit(x, y)
+
+
+# In[23]:
+
+
+sc_y.inverse_transform(regressor.predict(sc_x.transform([[6.5]]))).reshape(-1,1)
+
+
+# In[24]:
+
+
+plt.scatter(sc_x.inverse_transform(x), sc_y.inverse_transform(y), color='red')
+plt.plot(sc_x.inverse_transform(x), sc_y.inverse_transform(regressor.predict(x).reshape(-1,1) ), color ='blue')
+plt.title('SVR')
+plt.xlabel('Position Level')
+plt.ylabel('Salary')
+plt.show()
