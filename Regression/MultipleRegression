@@ -1,0 +1,52 @@
+# In[1]:
+
+
+#Building a multi linear regression model following the backwards model
+import numpy as py
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# In[4]:
+
+
+dataset = pd.read_csv('C:\\Users\\joao_\\OneDrive\\Documentos\\Machine_learning\\Machine Learning A-Z (Codes and Datasets)\\Part 2 - Regression\\Section 5 - Multiple Linear Regression\\Python\\50_Startups.csv')
+
+
+# In[5]:
+
+
+x = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+
+
+# In[11]:
+
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 1)
+
+
+# In[10]:
+
+
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+ct = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [3])], remainder='passthrough')
+x = py.array(ct.fit_transform(x))
+
+
+# In[13]:
+
+
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+
+# In[14]:
+
+
+y_pred = regressor.predict(X_test)
+py.set_printoptions(precision=2)
+print(py.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),1)),1))
